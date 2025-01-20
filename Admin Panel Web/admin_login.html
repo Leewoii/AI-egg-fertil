@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        #login-container {
+            width: 80%;
+            max-width: 400px;
+            margin: 40px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #login-form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #login-form label {
+            margin-top: 10px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        #login-form input {
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        #login-form button {
+            margin-top: 20px;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #333;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        #login-form button:hover {
+            background-color: #555;
+        }
+
+        #login-message {
+            color: red;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+    
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+</head>
+
+<body>
+    <h1>Admin Login</h1>
+    <div id="login-container">
+        <form id="login-form" onsubmit="validateLogin(event)">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <button type="submit">Login</button>
+        </form>
+        <p id="login-message"></p>
+    </div>
+
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDQXg6iOefWHgDYsooVM2GsbwASoHr_l-Y",
+            authDomain: "automated-egg-incubator-2675c.firebaseapp.com",
+            databaseURL: "https://automated-egg-incubator-2675c-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "automated-egg-incubator-2675c",
+            storageBucket: "automated-egg-incubator-2675c.firebasestorage.app",
+            messagingSenderId: "484243703973",
+            appId: "1:484243703973:web:6414123f4ad9c1a3c5654c",
+            measurementId: "G-P7BG7PCV40"
+        };
+
+         // Initialize Firebase
+         firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // Function to validate login using Firebase Firestore
+        async function validateLogin(event) {
+    event.preventDefault();
+
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const loginMessage = document.getElementById('login-message');
+
+    // Reference to the Firestore collection
+    const accountsRef = firebase.firestore().collection('Accounts');
+
+    try {
+        // Query Firestore to find a document with the provided email
+        const querySnapshot = await accountsRef.where('email', '==', email).get();
+
+        if (!querySnapshot.empty) {
+            // Account found, now check the password
+            const adminAccount = querySnapshot.docs[0].data();  // Get the first matching document
+
+            // Check if the provided password matches the stored one
+            if (password === adminAccount.password) {
+                // Password is correct
+                loginMessage.style.color = 'green';
+                loginMessage.textContent = 'Login successful! Redirecting...';
+
+                // Redirect to the admin dashboard (index.html)
+                setTimeout(() => {
+                    window.location.href = 'index.html';  // Redirect to the admin dashboard page
+                }, 1000);
+            } else {
+                // Incorrect password
+                loginMessage.style.color = 'red';
+                loginMessage.textContent = 'Incorrect password. Please try again.';
+            }
+        } else {
+            // No account found with the given email
+            loginMessage.style.color = 'red';
+            loginMessage.textContent = 'No account found with this email. Please try again.';
+        }
+    } catch (error) {
+        // Handle any Firestore-related errors
+        loginMessage.style.color = 'red';
+        loginMessage.textContent = 'Error logging in, please try again.';
+        console.error("Error during login:", error);
+    }
+}
+
+    </script>
+</body>
+
+</html>
