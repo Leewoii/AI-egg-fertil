@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "default": "automated-egg-incubator-2675c",
+    "staging": "automated-egg-incubator-2675c"
+  },
+  "targets": {},
+  "etags": {}
+}

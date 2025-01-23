@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "484243703973",
+    "firebase_url": "https://automated-egg-incubator-2675c-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "automated-egg-incubator-2675c",
+    "storage_bucket": "automated-egg-incubator-2675c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:484243703973:android:b25b985da3aa170fc5654c",
+        "android_client_info": {
+          "package_name": "com.eggincubator.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEuRznKPl-DdfJadmn1gaUpm0VbALfOuM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

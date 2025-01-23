@@ -1,0 +1,39 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "automated-egg-incubator-2675c",
+          "appId": "1:249741549405:android:e8c56a04e071fd5df0d2b4",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "automated-egg-incubator-2675c",
+          "configurations": {
+            "android": "1:484243703973:android:b25b985da3aa170fc5654c",
+            "ios": "1:484243703973:ios:50001595dd69e07ec5654c",
+            "macos": "1:484243703973:ios:50001595dd69e07ec5654c",
+            "web": "1:484243703973:web:6414123f4ad9c1a3c5654c",
+            "windows": "1:484243703973:web:83cac65ef0009af8c5654c"
+          }
+        }
+      }
+    }
+  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ],
+      "predeploy": []
+    }
+  ]
+}
