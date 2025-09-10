@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <style>
+        /* Basic CSS for layout */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Navigation bar container */
+        .admin-panel-container {
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            background-color: #333;
+            padding: 10px 20px;
+            width: 100%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Admin Panel text styling */
+        .admin-panel-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+            margin-right: 20px;
+        }
+
+        /* Style for the links */
+        nav a {
+            text-decoration: none;
+            color: #fff;
+            padding: 8px 16px;
+            font-size: 1rem;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Hover effect for links */
+        nav a:hover {
+            background-color: #555;
+        }
+
+        /* Form Container Styling */
+        .form-container {
+            background-color: white;
+            padding: 20px;
+            width: 90%;
+            max-width: 500px;
+            margin-top: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .form-input {
+            margin-top: 10px;
+            padding: 8px;
+            width: 100%;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .submit-btn {
+            margin-top: 15px;
+            padding: 10px 15px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Menu Bar -->
+    <nav class="admin-panel-container">
+        <span class="admin-panel-text">Admin Panel</span>
+        <a href="createUser.html">Create User Account</a>
+        <a href="linkIncubator.html">Link Incubator</a>
+        <a href="usersTable.html">User Table</a>
+        <a href="admin_login.html">Logout</a>
+    </nav>
+
+    <!-- Link Incubator Form -->
+    <div class="form-container">
+        <h2 class="form-title">Link Incubator</h2>
+
+        <!-- Account Text Field -->
+        <label for="accountInput">Account Email:</label>
+        <input type="text" id="accountInput" class="form-input" placeholder="Enter account email" oninput="validateAccount()">
+        <p id="error-message" class="error-message">The inputted account is an owner and cannot be linked.</p>
+
+        <!-- Incubator Dropdown -->
+        <label for="incubatorDropdown">Select Incubator:</label>
+        <select id="incubatorDropdown" class="form-input">
+            <option disabled selected>Select an Incubator</option>
+            <option value="incubator_1">Incubator ID 1</option>
+            <option value="incubator_2">Incubator ID 2</option>
+        </select>
+
+        <!-- Submit Button -->
+        <button class="submit-btn">Link Incubator</button>
+    </div>
+
+    <script>
+        // Array of owner accounts for validation
+        const ownerAccounts = ["owner1@example.com", "owner2@example.com"];
+
+        function validateAccount() {
+            const accountInput = document.getElementById("accountInput").value;
+            const errorMessage = document.getElementById("error-message");
+
+            // Check if the entered account is an owner
+            if (ownerAccounts.includes(accountInput.trim())) {
+                errorMessage.style.display = "block";
+            } else {
+                errorMessage.style.display = "none";
+            }
+        }
+    </script>
+
+</body>
+</html>

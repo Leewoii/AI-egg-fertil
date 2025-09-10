@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADMIN PANEL</title>
+    <style>
+        /* Basic CSS for layout */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        /* Navigation bar container */
+        .admin-panel-container {
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            background-color: #333;
+            padding: 10px 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Admin Panel text styling */
+        .admin-panel-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+            margin-right: 20px;
+        }
+
+        /* Style for the links */
+        nav a {
+            text-decoration: none;
+            color: #fff;
+            padding: 8px 16px;
+            font-size: 1rem;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Hover effect for links */
+        nav a:hover {
+            background-color: #555;
+        }
+
+        /* Main Content Styling */
+        main {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: #fff;
+            margin: 20px auto;
+            max-width: 1200px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Footer Styling */
+        footer {
+            background-color: #444;
+            color: white;
+            text-align: center;
+            padding: 8px 0;
+            margin-top: auto;
+            flex-shrink: 0;
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #ddd;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        /* Input Form Styling */
+        form {
+            margin-top: 20px;
+        }
+
+        input[type="text"] {
+            padding: 8px;
+            margin: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            background-color: #333;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+
+        /* Retrieve Button */
+        .retrieve-btn {
+            padding: 10px 10px;
+            background-color: #333;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 20px;
+        }
+
+        .retrieve-btn:hover {
+            background-color: #555;
+        }
+
+        /* Modal Styling */
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding-top: 10%;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 10px;
+            width: 90%;
+            max-width: 50%;
+            border-radius: 5px;
+            text-align: center;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Close Button */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Hide Archive Table */
+        #archive-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        #archive-table th,
+        #archive-table td {
+            padding: 20px;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Menu Bar -->
+    <nav class="admin-panel-container">
+        <span class="admin-panel-text">Admin Panel</span>
+        <a href="createUser.html" id= "createUserButton">Create User Account</a>
+        <a href="linkIncubator.html" id="linkIncubatorButton">Link Incubator</a>
+
+
+        <a href="usersTable.html">User Table</a>
+        <a href="admin_login.html" onclick="toggleDrawer()">Logout</a>
+    </nav>
+    
+    <!-- Main Content -->
+    <main>
+        <section id="user-table">
+            <h2>User Table</h2>
+            <!-- Retrieve Button -->
+            <button class="retrieve-btn" id="retrieve-btn">RETRIEVE</button>
+
+            <!-- Table displaying users -->
+            <table id="users-table">
+                <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th>Access</th>
+                        <th>Incubator</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- User rows will be dynamically added here -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <!-- The Modal -->
+    <center>
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Archived Users</h2>
+            <table id="archive-table">
+                <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th>Access</th>
+                        <th>Incubator</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Archive rows will be dynamically added here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </center>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDQXg6iOefWHgDYsooVM2GsbwASoHr_l-Y",
+            authDomain: "automated-egg-incubator-2675c.firebaseapp.com",
+            databaseURL: "https://automated-egg-incubator-2675c-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "automated-egg-incubator-2675c",
+            storageBucket: "automated-egg-incubator-2675c.firebasestorage.app",
+            messagingSenderId: "484243703973",
+            appId: "1:484243703973:web:6414123f4ad9c1a3c5654c",
+            measurementId: "G-P7BG7PCV40"
+        };
+        
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Get the table and form elements
+        const usersTable = document.getElementById('users-table').getElementsByTagName('tbody')[0];
+        const archiveTable = document.getElementById('archive-table').getElementsByTagName('tbody')[0];
+        const retrieveBtn = document.getElementById('retrieve-btn');
+        const modal = document.getElementById("myModal");
+        const closeModal = document.getElementsByClassName("close")[0];
+
+// Fetch users from Firestore (from both Accounts and Detection collections)
+async function fetchUsers() {
+    const detectionSnapshot = await db.collection('Detection').where("status", "==", "active").get();
+    const users = [];
+
+    // Fetch and combine data from both Detection and Accounts collections
+    for (const doc of detectionSnapshot.docs) {
+        const access = doc.data().access;
+        const incubatorName = doc.data().incubatorName;
+
+        const userData = await fetchUserByAccess(access);
+        users.push({
+            access,
+            email: userData.email,  // Get email from Accounts collection
+            incubatorName
+        });
+    }
+
+    updateUserTable(users);
+}
+
+
+// Fetch user data from Accounts collection based on access (access links to email)
+async function fetchUserByAccess(access) {
+    const accountsSnapshot = await db.collection('Accounts').doc(access).get();
+    if (accountsSnapshot.exists) {
+        return accountsSnapshot.data();
+    } else {
+        console.log('No user found with access:', access);
+        return {}; // Return empty object if no user is found
+    }
+}
+
+// Update the user table with data from both collections and add edit functionality
+function updateUserTable(users) {
+    usersTable.innerHTML = '';  // Clear the table before updating
+    users.forEach((user) => {
+        const newRow = usersTable.insertRow();
+        newRow.innerHTML = `
+            <td><span class="editable-text">${user.access}</span><input type="text" value="${user.access}" style="display: none;" class="edit-input"></td>
+            <td><span class="editable-text">${user.email}</span><input type="text" value="${user.email}" style="display: none;" class="edit-input"></td>
+            <td><span class="editable-text">${user.incubatorName}</span><input type="text" value="${user.incubatorName}" style="display: none;" class="edit-input"></td>
+            <td>
+                <button onclick="archiveUser('${user.access}')" style="color: white; background-color: red;">Delete</button>
+                <button class="edit-btn" onclick="enableEditMode(this)">Edit</button>
+                <button class="save-btn" style="display: none;" onclick="saveChanges(this, '${user.access}')">Save</button>
+            </td>
+        `;
+    });
+}
+
+// Function to toggle edit mode
+function enableEditMode(editButton) {
+    const row = editButton.closest('tr');
+    row.querySelectorAll('.editable-text').forEach(span => span.style.display = 'none'); // Hide text
+    row.querySelectorAll('.edit-input').forEach(input => input.style.display = 'inline'); // Show input fields
+    editButton.style.display = 'none'; // Hide Edit button
+    row.querySelector('.save-btn').style.display = 'inline'; // Show Save button
+}
+
+// Save changes to Firestore
+async function saveChanges(saveButton, originalAccess) {
+    const row = saveButton.closest('tr');
+    const newAccess = row.querySelectorAll('.edit-input')[0].value;
+    const newEmail = row.querySelectorAll('.edit-input')[1].value;
+    const newIncubatorName = row.querySelectorAll('.edit-input')[2].value;
+
+    try {
+        // Update Detection collection
+        const detectionDocs = await db.collection('Detection').where("access", "==", originalAccess).get();
+        if (!detectionDocs.empty) {
+            detectionDocs.forEach(doc => {
+                doc.ref.update({
+                    access: newAccess,
+                    incubatorName: newIncubatorName
+                });
+            });
+        }
+
+        // Update Accounts collection
+        const accountDoc = db.collection('Accounts').doc(originalAccess);
+        const accountSnapshot = await accountDoc.get();
+        if (accountSnapshot.exists) {
+            accountDoc.update({ 
+                email: newEmail 
+            });
+
+            // If access has changed, create a new document and delete the old one
+            if (newAccess !== originalAccess) {
+                await db.collection('Accounts').doc(newAccess).set({
+                    email: newEmail
+                });
+                await accountDoc.delete(); // Delete old access document
+            }
+        }
+
+        // Update table display after saving
+        row.querySelectorAll('.editable-text')[0].textContent = newAccess;
+        row.querySelectorAll('.editable-text')[1].textContent = newEmail;
+        row.querySelectorAll('.editable-text')[2].textContent = newIncubatorName;
+
+        row.querySelectorAll('.editable-text').forEach(span => span.style.display = 'inline'); // Show text
+        row.querySelectorAll('.edit-input').forEach(input => input.style.display = 'none'); // Hide input fields
+        saveButton.style.display = 'none'; // Hide Save button
+        row.querySelector('.edit-btn').style.display = 'inline'; // Show Edit button
+
+        console.log('User information updated successfully.');
+    } catch (error) {
+        console.error("Error updating user information: ", error);
+    }
+}
+
+
+// Archive a user (soft delete, set status to 'archived')
+function archiveUser(access) {
+    // Find the user document in the Detection collection where access matches the user's email
+    db.collection('Detection').where("access", "==", access).get()
+    .then(querySnapshot => {
+        if (!querySnapshot.empty) {
+            // Update the status field to 'archived' for the found document
+            querySnapshot.forEach(doc => {
+                db.collection('Detection').doc(doc.id).update({
+                    status: 'archived'  // Change the status to 'archived'
+                }).then(() => {
+                    // Remove the user from the active users table by filtering the user out
+                    const rows = usersTable.getElementsByTagName("tr");
+                    for (let i = 0; i < rows.length; i++) {
+                        const row = rows[i];
+                        const cells = row.getElementsByTagName("td");
+                        if (cells.length > 0 && cells[0].textContent === access) {
+                            row.remove();  // Remove the row corresponding to the deleted user
+                            break;  // Stop after removing the row
+                        }
+                    }
+
+                    // Optionally, you can call fetchUsers here again to refresh if needed, but the user is already removed from the table
+                    // fetchUsers(); // This is not strictly necessary, since the row is removed immediately
+                    fetchArchivedUsers();  // Refresh the archived users table
+                }).catch((error) => {
+                    console.error("Error archiving user: ", error);
+                });
+            });
+        } else {
+            console.log("No matching user found.");
+        }
+    }).catch((error) => {
+        console.error("Error fetching user by access email: ", error);
+    });
+}
+
+// Open the archived users modal
+function openLinkIncubatorModal() {
+    modal.style.display = "block";
+    fetchArchivedUsers();
+}
+
+// Close the modal
+closeModal.onclick = function() {
+    modal.style.display = "none";
+}
+
+// Fetch archived users
+async function fetchArchivedUsers() {
+    const snapshot = await db.collection('Detection').where("status", "==", "archived").get();
+    const archivedUsers = [];
+
+    for (const doc of snapshot.docs) {
+        // Fetch user data (email) from the Accounts collection using the access field
+        const userData = await fetchUserByAccess(doc.data().access);
+        
+        // Add the user's access, email, and incubatorName to the archivedUsers array
+        archivedUsers.push({
+            access: doc.data().access,
+            email: userData.email,  // Email from the Accounts collection
+            incubatorName: doc.data().incubatorName  // Incubator name from the Detection collection
+        });
+    }
+
+    updateArchiveTable(archivedUsers);  // Update the archive table with the fetched data
+}
+
+// Fetch user data from Accounts collection based on access (access links to email)
+async function fetchUserByAccess(access) {
+    const accountsSnapshot = await db.collection('Accounts').doc(access).get();
+    if (accountsSnapshot.exists) {
+        return accountsSnapshot.data();  // Return user data from the Accounts collection
+    } else {
+        console.log('No user found with access:', access);
+        return {};  // Return empty object if no user is found
+    }
+}
+
+
+// Update the archive table
+function updateArchiveTable(users) {
+    archiveTable.innerHTML = '';  // Clear the table before updating
+    users.forEach(user => {
+        const newRow = archiveTable.insertRow();
+        newRow.innerHTML = `
+            <td>${user.access}</td> <!-- Displaying access -->
+            <td>${user.email}</td> <!-- Displaying email -->
+            <td>${user.incubatorName}</td> <!-- Displaying incubator name -->
+            <td>
+                <button onclick="restoreUser('${user.access}')" style="color: white; background-color: green;">Restore</button>
+            </td>
+        `;
+    });
+}
+
+
+// Restore an archived user
+function restoreUser(access) {
+    // Find the user document in the Detection collection where access matches
+    db.collection('Detection').where("access", "==", access).get()
+    .then(querySnapshot => {
+        if (!querySnapshot.empty) {
+            querySnapshot.forEach(doc => {
+                // Update the document status to 'active'
+                db.collection('Detection').doc(doc.id).update({
+                    status: 'active'
+                }).then(() => {
+                    // Refresh both tables after successful update
+                    fetchArchivedUsers();  // Refresh archived users table
+                    fetchUsers();  // Refresh active users table
+                }).catch((error) => {
+                    console.error("Error restoring user: ", error);
+                });
+            });
+        } else {
+            console.log("No matching user found.");
+        }
+    }).catch((error) => {
+        console.error("Error fetching user by access for restore: ", error);
+    });
+}
+
+
+
+
+// Event listener to retrieve users
+retrieveBtn.addEventListener('click', () => {
+    modal.style.display = "block";
+    fetchArchivedUsers(); // Ensure the archived users are displayed when the panel is opened
+});
+
+// Initial fetch of users (to show active users)
+fetchUsers();
+
+
+
+    </script>
+</body>
+
+</html>
