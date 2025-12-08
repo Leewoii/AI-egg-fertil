@@ -1,6 +1,6 @@
 # AI Model
 The AI model used for real-time egg fertility detection is based on YOLOv8n, achieving an accuracy of 0.98 (where 1 is 100% accuracy). We trained the model using a custom dataset captured during the construction of the incubator.
-![[Loss per epoch.png]]
+![[images/Loss per epoch.png]]
 
 ![[Precision-Confidence Curve.png]]
 
